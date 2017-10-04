@@ -1,5 +1,6 @@
-#ifndef __HI_H
-#define __HI_H
+#ifndef __AUX_H
+#define __AUX_H
+#include "hi.h"
 
 /*  Copyright (C) 2010  Maximilian L. Eul
     This file is part of hi.
@@ -18,26 +19,19 @@
     along with hi.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdio.h>
-#include <ctype.h>
+bool  get_range (const char* s, Range *r);
+void  sort_ranges (Range *r, uint cnt);
+char* find_keywords (const char* line, const Word* keywords, const uint count, Word* *foundword);
 
-#include "const.h"
-#include "macros.h"
-#include "typedef.h"
-#include "aux.h"
-#include "scan.h"
+inline bool line_is_blank (const char* s);
 
+void output_paragraph (char** lines, ulint *count, const short color);
+void output_line      (char* line,                 const short color);
 
-int main (int argc, char** argv);
+short identifyColor (const char* name);
 
-bool addWord  (char* new, Word *words, uint *count);
-
-void addRange    (const Range* _n, Range *r, uint *cnt);
-void cleanRanges (Range *r, uint cnt);
+void Help    (void);
+void Version (void);
 
 
-#endif /* __HI_H */
+#endif /* __AUX_H */

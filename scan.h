@@ -1,5 +1,6 @@
-#ifndef __HI_H
-#define __HI_H
+#ifndef __SCAN_H
+#define __SCAN_H
+#include "hi.h"
 
 /*  Copyright (C) 2010  Maximilian L. Eul
     This file is part of hi.
@@ -18,26 +19,8 @@
     along with hi.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdio.h>
-#include <ctype.h>
+void explicitLines  (const short color, const Range* ranges, uint rcnt);
+void scanLines      (const short color, const Word* keywords, const uint cnt_words, const short mode);
+void scanParagraphs (const short color, const Word* keywords, const uint cnt_words);
 
-#include "const.h"
-#include "macros.h"
-#include "typedef.h"
-#include "aux.h"
-#include "scan.h"
-
-
-int main (int argc, char** argv);
-
-bool addWord  (char* new, Word *words, uint *count);
-
-void addRange    (const Range* _n, Range *r, uint *cnt);
-void cleanRanges (Range *r, uint cnt);
-
-
-#endif /* __HI_H */
+#endif /* __SCAN_H */

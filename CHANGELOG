@@ -1,3 +1,8 @@
+v2.0, November 2010:
+	- Code completely redone
+	- GPL v3
+	- fixed -p
+
 v1.2:
 	- Added argument -w
 	- Raised line length limits
