@@ -1,6 +1,6 @@
 #include "aux.h"
 
-/*  Copyright (C) 2010  Maximilian L. Eul
+/*  Copyright (C) 2013  Maximilian L. Eul
     This file is part of hi.
 
     hi is free software: you can redistribute it and/or modify
@@ -161,6 +161,6 @@ void Help (void) { printf(
 
 void Version (void) { printf(
 	PROGNAME " v" VERSION "\n"
-	"Written by Maximilian Eul <mle@multinion.de>, November 2010.\n"
+	"Written by Maximilian Eul <mle@multinion.de>, June 2013.\n"
 	"\n"
 ); exit(RET_HELP); }

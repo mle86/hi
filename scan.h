@@ -2,7 +2,7 @@
 #define __SCAN_H
 #include "hi.h"
 
-/*  Copyright (C) 2010  Maximilian L. Eul
+/*  Copyright (C) 2013  Maximilian L. Eul
     This file is part of hi.
 
     hi is free software: you can redistribute it and/or modify

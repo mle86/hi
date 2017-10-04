@@ -1,3 +1,6 @@
+v2.01, June 2013:
+	- Bugfix (signed char)
+
 v2.0, November 2010:
 	- Code completely redone
 	- GPL v3
