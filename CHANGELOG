@@ -1,0 +1,7 @@
+v1.2:
+	- Added argument -w
+	- Raised line length limits
+	- Improved overflow checks
+
+v1.1:
+	- Added argument -L

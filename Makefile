@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-O1 -fomit-frame-pointer -I. -Wall -Ilib
+CFLAGS+=-O2 -I. -Wall -Ilib
 BIN=hi
 DEST=/usr/local/bin/hi
 CHOWN=root:root

@@ -1,10 +1,7 @@
 #ifndef __COMPILER_H
 #define __COMPILER_H
 
-
-#ifndef IS_GCC_VERSION
-	#define IS_GCC_VERSION(major, minor)  (__GNUC__ > (major) || (__GNUC__ == (major) && __GNUC_MINOR__ >= (minor)))
-#endif
+#include "macros.h"
 
 
 #if defined(__GNUC__)
@@ -25,7 +22,7 @@
 		#define  __ATTR_sentinel              __attribute__(( sentinel ))
 	#endif
 	
-#endif
+#endif // GCC
 
 
 #ifndef __ATTR_noreturn
@@ -45,4 +42,4 @@
 #endif
 
 
-#endif /* __COMPILER_H */
+#endif // __COMPILER_H
