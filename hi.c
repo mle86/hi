@@ -1,6 +1,7 @@
 #include "hi.h"
 
 char* Words [MAXWORDS];
+char buf [MAXLINELEN];
 
 
 int main (int argc, char** argv) {
@@ -8,27 +9,31 @@ int main (int argc, char** argv) {
 	short Mark = DEFAULT_MARK;
 	short Color = DEFAULT_COLOR;
 
+	char* ExpLines = NULL;
 	char* ParaBuf [MAXPARALINES];
 	uint pline = 0;
 	
 	short found = 0;
-	char buf [MAXLINELEN];
 	char c;
 	uint i, j, w=0;
 
 	ssize_t s;
 	
-	while( (c = getopt(argc, argv, "wplc:hV")) != -1 )
+	while( (c = getopt(argc, argv, "wplL:c:hV")) != -1 )
 	switch(c) {
 		case 'w': Mark = MARK_WORD; break;
 		case 'p': Mark = MARK_PARA; break;
 		case 'l': Mark = MARK_LINE; break;
+		case 'L': Mark = MARK_EXPLICIT; ExpLines = strDup(optarg); break;
 		case 'c': SetColor(optarg, &Color); break;
 		case 'h': Help(); return 0;
 		case 'V': Version(); return 0;
 	}
 	
 	init();
+
+	if (Mark == MARK_EXPLICIT)
+		return ExplicitOnly(argv[0], ExpLines, Color);
 	
 	while( optind<argc && w<MAXWORDS ) {
 		char* p = Prepare(argv[optind++], 0);
@@ -116,6 +121,52 @@ int main (int argc, char** argv) {
 }
 
 
+int ExplicitOnly (char* argv0, char* ExpLines, int Color) {
+	uint lstart = 0,
+	     lstop  = 0,
+	     curline = 1;
+	char* p = ExpLines;
+	ssize_t s;
+
+	if (! ExpLines && ! IsDigit(ExpLines[0])) {
+		fprintf(stderr, "%s: no lines given\n", argv0);
+		return 4;
+	}
+
+	while( IsDigit(*p) )  p++;
+	lstart = atoi(ExpLines);
+	lstop = (*(p++)=='-' && IsDigit(*p)) ? atoi(p) : lstart;
+
+	while(( s = read(0, buf, MAXLINELEN-1) ) > 0 ) {
+		register unsigned int i;
+		uint offs = 0; // offset from buf[0] for next line
+		for(i=0; i<=s; i++)
+			if (buf[i]=='\r' && (i+1)<=s && (buf[i+1]=='\n' || buf[i+1]=='\0')) {
+				// Skip \r
+				i++;
+			} else if (buf[i]=='\n' || buf[i]=='\r' || buf[i]=='\0') {
+				// New line
+				char* ptr = &buf[offs];
+				buf[i] = '\0';
+				PrintParagraph(&ptr, 1, (curline >= lstart && curline <= lstop) ? Color : 0, 1);
+				curline++;
+				offs = i + 1;
+
+				if ((i+1)<=s && buf[i+1]=='\0')
+					break;
+			}
+	}
+
+	switch(s) {
+	  case -1:
+		fprintf(stderr, "%s: read error\n", argv0);
+		return 3;
+	  default:
+		return 0;
+	}
+}
+
+
 void PrintParagraph (char** Lines, uint linecnt, short color, short brk) {
 	register uint i;
 	if (color)
@@ -188,11 +239,13 @@ void Help (void) { printf(
 	M1 "  -p        " M0 "highlight paragraphs containing at least one of the " M1 "KEYWORD" M0 "S.\n"
 	M1 "  -l        " M0 "highlight lines containing at least one of the " M1 "KEYWORD" M0 "S.\n"
 //	M1 "  -w        " M0 "highlight only KEYWORD" M0 "S\n"
+	M1 "  -L nn     " M0 "highlight only the given line(s), no " M1 "KEYWORD" M0 "S needed.\n"
+	   "            " M1 "nn: " M0 "either a single line number (e.g. " M1 "71" M0 ") or a range (e.g. " M1 "1-9" M0 ").\n"
 	M1 "  -c COLOR  " M0 "select highlighting color, choose from\n"
 	   "            "    "white, red, green, blue, yellow, cyan.\n"
 	M1 "  -h        " M0 "this help.\n"
 	M1 "  -V        " M0 "program version information.\n"
-	"Options " M1 "-plw" M0 " are mutually exclusive.\n"
+	"Options " M1 "-plwL" M0 " are mutually exclusive.\n"
 	"Defaults are " M1 "-p -c yellow" M0 ".\n"
 	"\n"
 ); exit(0); }
@@ -200,6 +253,6 @@ void Help (void) { printf(
 
 void Version (void) { printf(
 	PROGNAME " v" VERSION "\n"
-	"Written by Maximilian Eul <mle@multinion.de>, February 2007.\n"
+	"Written by Maximilian Eul <mle@multinion.de>, March 2008.\n"
 	"\n"
 ); exit(0); }

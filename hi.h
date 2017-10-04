@@ -13,6 +13,7 @@
 
 int main (int argc, char** argv);
 void init (void);
+int ExplicitOnly (char* argv0, char* lines, int color);
 
 short ScanLine (char** Words, uint wordcnt, char* line, uint len);
 void PrintParagraph (char** Lines, uint linecnt, short color, short brk);
