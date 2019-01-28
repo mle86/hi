@@ -1,8 +1,8 @@
-#ifndef __AUX_H
-#define __AUX_H
+#ifndef _AUX_H
+#define _AUX_H
 #include "hi.h"
 
-/*  Copyright (C) 2013  Maximilian L. Eul
+/*  Copyright (C) 2019  Maximilian L. Eul
     This file is part of hi.
 
     hi is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@ bool  get_range (const char* s, Range *r);
 void  sort_ranges (Range *r, uint cnt);
 char* find_keywords (const char* line, const Word* keywords, const uint count, Word* *foundword);
 
-inline bool line_is_blank (const char* s);
+bool line_is_blank (const char* s);
 
 void output_paragraph (char** lines, ulint *count, const short color);
 void output_line      (char* line,                 const short color);
@@ -34,4 +34,4 @@ void Help    (void);
 void Version (void);
 
 
-#endif /* __AUX_H */
+#endif  // _AUX_H

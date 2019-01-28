@@ -1,8 +1,8 @@
-#ifndef __CONST_H
-#define __CONST_H
+#ifndef _CONST_H
+#define _CONST_H
 #include "hi.h"
 
-/*  Copyright (C) 2013  Maximilian L. Eul
+/*  Copyright (C) 2019  Maximilian L. Eul
     This file is part of hi.
 
     hi is free software: you can redistribute it and/or modify
@@ -22,20 +22,21 @@
 
 #define VERSION  "2.01"
 
-#define MAXKEYWORDS 32
-#define MAXLINELEN 8192
-#define MAXPARALINES 4096
-#define MAXRANGES 64
+#define MAXKEYWORDS	  32
+#define MAXLINELEN	8192
+#define MAXPARALINES	4096
+#define MAXRANGES	  64
 
-#define DEFAULT_MODE   MODE_LINE
 enum {
 	MODE_WORD,
 	MODE_PARA,
 	MODE_LINE,
-	MODE_EXPLICIT
+	MODE_EXPLICIT,
+
+	DEFAULT_MODE = MODE_LINE,
 };
 
-#define DEFAULT_COLOR  ANSI_YELLOW
+#define DEFAULT_COLOR ANSI_YELLOW
 #define ANSI_RED     31
 #define ANSI_GREEN   32
 #define ANSI_YELLOW  33
@@ -55,4 +56,5 @@ enum {
 #define RET_READERROR		3
 #define RET_NOLINES		4
 
-#endif /* __CONST_H */
+
+#endif  // _CONST_H

@@ -1,7 +1,7 @@
-#ifndef __HI_H
-#define __HI_H
+#ifndef _HI_H
+#define _HI_H
 
-/*  Copyright (C) 2013  Maximilian L. Eul
+/*  Copyright (C) 2019  Maximilian L. Eul
     This file is part of hi.
 
     hi is free software: you can redistribute it and/or modify
@@ -27,17 +27,17 @@
 
 #include "const.h"
 #include "macros.h"
-#include "typedef.h"
+#include "types.h"
 #include "aux.h"
 #include "scan.h"
 
 
 int main (int argc, char** argv);
 
-bool addWord  (char* new, Word *words, uint *count);
+bool addWord (char* new, Word *words, uint *count);
 
-void addRange    (const Range* _n, Range *r, uint *cnt);
+void addRange (const Range* _n, Range *r, uint *cnt);
 void cleanRanges (Range *r, uint cnt);
 
 
-#endif /* __HI_H */
+#endif  // _HI_H

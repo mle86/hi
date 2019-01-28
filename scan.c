@@ -24,9 +24,9 @@ void explicitLines (const short color, const Range* ranges, uint rcnt) {
 	uint r = 0;
 	char buf [MAXLINELEN] = "";
 
-	while( r < rcnt && freadline(stdin, buf) ) {
+	while (r < rcnt && freadline(stdin, buf)) {
 		line++;
-		while( ranges->stop < line ) {
+		while (ranges->stop < line) {
 			ranges++;
 			if (++r >= rcnt)
 				goto dump_all;
@@ -37,7 +37,7 @@ void explicitLines (const short color, const Range* ranges, uint rcnt) {
 			printf("%s", buf);
 	}
 
-	while( freadline(stdin, buf) ) {
+	while (freadline(stdin, buf)) {
 		dump_all:
 		printf("%s", buf);
 	}
@@ -46,7 +46,7 @@ void explicitLines (const short color, const Range* ranges, uint rcnt) {
 void scanLines (const short color, const Word* keywords, const uint cnt_words, const short mode) {
 	char _buf [MAXLINELEN] = "";
 
-	while( freadline(stdin, _buf) ) {
+	while (freadline(stdin, _buf)) {
 		char* found;
 		Word* wf;
 
@@ -66,8 +66,9 @@ void scanLines (const short color, const Word* keywords, const uint cnt_words, c
 			);
 			buf = found + wf->length;
 			goto rest_of_line;
-		} else
+		} else {
 			output_line(buf, color);
+		}
 
 	}
 }
@@ -79,7 +80,7 @@ void scanParagraphs (const short color, const Word* keywords, const uint cnt_wor
 	ulint pl = 0;
 	char* paralines [MAXPARALINES] = { NULL };
 
-	while( freadline(stdin, buf) ) {
+	while (freadline(stdin, buf)) {
 
 		if (line_is_blank(buf)) {
 			// paragraph ended
@@ -90,7 +91,7 @@ void scanParagraphs (const short color, const Word* keywords, const uint cnt_wor
 		} else if (keyword_in_para) {
 			printf("%s", buf);
 			continue;
-		} // else: regular line
+		}  // else: regular line
 
 		if (find_keywords(buf, keywords, cnt_words, NULL)) {
 			// yes, print saved lines
@@ -107,3 +108,4 @@ void scanParagraphs (const short color, const Word* keywords, const uint cnt_wor
 	if (pl > 0)
 		output_paragraph(paralines, &pl, keyword_in_para ? color : 0);
 }
+

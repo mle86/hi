@@ -1,6 +1,6 @@
 #include "aux.h"
 
-/*  Copyright (C) 2013  Maximilian L. Eul
+/*  Copyright (C) 2019  Maximilian L. Eul
     This file is part of hi.
 
     hi is free software: you can redistribute it and/or modify
@@ -20,33 +20,57 @@
 static int _sortwrapper_range (const void* r1, const void* r2);
 
 
-inline bool line_is_blank (register const char* s) {
-	register char c;
-	while( (c = *s) && isspace(c) ) {
+inline bool line_is_blank (const char* s) {
+	char c;
+	while((c = *s) && isspace(c)) {
 		s++;
-		if (!(c = *s) || !isspace(c)) break; s++;
-		if (!(c = *s) || !isspace(c)) break; s++;
-		if (!(c = *s) || !isspace(c)) break; s++;
-		if (!(c = *s) || !isspace(c)) break; s++;
-		if (!(c = *s) || !isspace(c)) break; s++;
-		if (!(c = *s) || !isspace(c)) break; s++;
-		if (!(c = *s) || !isspace(c)) break; s++;
+
+		// Some loop unrolling:
+		if (!(c = *s) || !isspace(c))
+			break;
+		s++;
+		if (!(c = *s) || !isspace(c))
+			break;
+		s++;
+		if (!(c = *s) || !isspace(c))
+			break;
+		s++;
+		if (!(c = *s) || !isspace(c))
+			break;
+		s++;
+		if (!(c = *s) || !isspace(c))
+			break;
+		s++;
+		if (!(c = *s) || !isspace(c))
+			break;
+		s++;
+		if (!(c = *s) || !isspace(c))
+			break;
+		s++;
 	}
-	return (c ? false : true);
+	return (c != '\0');
 }
 
-bool get_range (register const char* s, Range *r) {
+bool get_range (const char* s, Range *r) {
 	SKIP_WHITESPACE(s);
 	long int v = atoi(s);
-	if (v <= 0)  return false;
+	if (v <= 0)
+		return false;
 
-	r->start = r->stop = v;
-	while( isdigit(*s) )  s++;
-	if (! *s)  return true;
+	r->start =
+	r->stop =
+		v;
+	while (isdigit(*s))
+		s++;
+	if (!*s)
+		return true;
 
-	if (*s != ':' && *s != '-')  return false;
+	if (*s != ':' && *s != '-')
+		return false;
+
 	v = atoi(s + 1);
-	if (v <= 0)  return false;
+	if (v <= 0)
+		return false;
 
 	r->stop = v;
 	return true;
@@ -57,13 +81,15 @@ void sort_ranges (Range *r, uint cnt) {
 	uint orig_cnt = cnt;
 
 	// clean up
-	while( cnt > 0 && r->start > 0 ) {
+	while (cnt > 0 && r->start > 0) {
 		r++;
 		cnt--;
 	}
-	register Range* t = r + 1;
-	while( cnt-- > 0 ) {
-		while( t->start <= 0 )  t++;
+
+	Range* t = r + 1;
+	while (cnt-- > 0) {
+		while (t->start <= 0)
+			t++;
 		memcpy(r++, t++, sizeof(*r));
 	}
 
@@ -84,13 +110,17 @@ int _sortwrapper_range (const void* _r1, const void* _r2) {
 
 char* find_keywords (const char* line, const Word* keywords, const uint count, Word* *foundword) {
 	char* found = NULL;
-	register uint w;
-	for( w=0; w<count; w++ )
+	uint w;
+	for (w = 0; w < count; w++)
 		if ((found = strstr(line, keywords[w].str)) != NULL)
 			break;
 
-	if (foundword != NULL) // save found word?
-		*foundword = found ? (Word *)&(keywords[w]) : NULL;
+	if (foundword != NULL) {
+		// save found word
+		if (found)
+			*foundword = (Word *)&keywords[w];
+		else	*foundword = NULL;
+	}
 
 	return found;
 }
@@ -102,7 +132,7 @@ void output_paragraph (char** lines, ulint *count, const short color) {
 	if (color > 0)
 		printf("[1;%02hum", color);
 
-	while( (*count)-- > 0 )
+	while ((*count)-- > 0)
 		printf("%s", *(lines++));
 
 	*count = 0;
@@ -115,7 +145,9 @@ void output_line (char* line, const short color) {
 
 	if (color > 0)
 		printf("[1;%02hum", color);
+
 	printf("%s", line);
+
 	if (color > 0)
 		printf("[0m");
 
@@ -139,28 +171,37 @@ short identifyColor (const char* name) {
 }
 
 
-void Help (void) { printf(
-	M1 PROGNAME M0"  reads text  from  standard input  and  highlights\n"
-	"those paragraphs/lines containing at least one of the given keywords.\n"
-	"Usage: "M1 PROGNAME M0" ["M1"OPTIONS"M0"] "M1"KEYWORD"M0"...\n"
-	"Options:\n"
-	M1"  -p        "M0"Highlight paragraphs containing at least one of the "M1"KEYWORD"M0"s.\n"
-	M1"  -l        "M0"Highlight lines containing at least one of the "M1"KEYWORD"M0"s.\n"
-	M1"  -w        "M0"Highlight only KEYWORD"M0"s\n"
-	M1"  -L nn     "M0"Highlight only the given line(s), no "M1"KEYWORD"M0"s needed.\n"
-	  "            "M1"nn: "M0"either a single line number (e.g. "M1"71"M0") or a range (e.g. "M1"1-9"M0").\n"
-	M1"  -c COLOR  "M0"Select highlighting color, choose from\n"
-	  "            "  "white, red, green, blue, yellow, cyan.\n"
-	M1"  -h        "M0"This help.\n"
-	M1"  -V        "M0"Program version information.\n"
-	"Options "M1"-plwL"M0" are mutually exclusive.\n"
-	"Defaults are "M1"-l -c yellow"M0".\n"
-	"\n"
-); exit(RET_HELP); }
+void Help (void) {
+	printf(
+		M1 "%1$s" M0" reads text from standard input and highlights\n"
+		"those paragraphs/lines containing at least one of the given keywords.\n"
+		"Usage: "M1 "%1$s" M0" ["M1"OPTIONS"M0"] "M1"KEYWORD"M0"...\n"
+		"Options:\n"
+		M1"  -p        "M0"Highlight paragraphs containing at least one of the "M1"KEYWORD"M0"s.\n"
+		M1"  -l        "M0"Highlight lines containing at least one of the "M1"KEYWORD"M0"s.\n"
+		M1"  -w        "M0"Highlight only KEYWORD"M0"s\n"
+		M1"  -L nn     "M0"Highlight only the given line(s), no "M1"KEYWORD"M0"s needed.\n"
+		  "            "M1"nn: "M0"either a single line number (e.g. "M1"71"M0") or a range (e.g. "M1"1-9"M0").\n"
+		M1"  -c COLOR  "M0"Select highlighting color, choose from\n"
+		  "            "  "white, red, green, blue, yellow, cyan.\n"
+		M1"  -h        "M0"This help.\n"
+		M1"  -V        "M0"Program version information.\n"
+		"Options "M1"-plwL"M0" are mutually exclusive.\n"
+		"Defaults are "M1"-l -c yellow"M0".\n"
+		"\n"
+		, PROGNAME
+	);
+	exit(RET_HELP);
+}
 
 
-void Version (void) { printf(
-	PROGNAME " v" VERSION "\n"
-	"Written by Maximilian Eul <mle@multinion.de>, June 2013.\n"
-	"\n"
-); exit(RET_HELP); }
+void Version (void) {
+	printf(
+		"%s v%s\n"
+		"Written by Maximilian Eul <mle@multinion.de>, June 2013.\n"
+		"\n"
+		, PROGNAME, VERSION
+	);
+	exit(RET_HELP);
+}
+

@@ -1,5 +1,3 @@
-#ifndef __MALLOC_C
-#define __MALLOC_C
 #include "malloc.h"
 
 #ifdef PROGNAME
@@ -9,10 +7,9 @@
 #endif
 
 void* Malloc (size_t size) {
-	register void* ptr;
 	if (size < 1)
 		return NULL;
-	ptr = malloc(size);
+	void* ptr = malloc(size);
 	if (ptr == NULL) {
 		fprintf(stderr, _MALLOC_ERRMSG, size);
 		abort();
@@ -20,4 +17,3 @@ void* Malloc (size_t size) {
 	return ptr;
 }
 
-#endif /* __MALLOC_C */

@@ -1,12 +1,12 @@
-#ifndef __LIBTYPEDEF_H
-#define __LIBTYPEDEF_H
+#ifndef __TYPES_H
+#define __TYPES_H
 #include <stdlib.h>
 
 
 typedef  unsigned long int  ulint;
 typedef    signed long int  slint;
 
-#ifndef __USE_MISC /* see sys/types.h */
+#ifndef __USE_MISC  // see sys/types.h
 typedef  unsigned int  uint;
 typedef  unsigned short  ushort;
 #endif
@@ -23,4 +23,4 @@ typedef struct Range {
 } Range;
 
 
-#endif /* __LIBTYPEDEF_H */
+#endif   // __TYPES_H

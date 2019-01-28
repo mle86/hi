@@ -1,5 +1,5 @@
-#ifndef __SCAN_H
-#define __SCAN_H
+#ifndef _SCAN_H
+#define _SCAN_H
 #include "hi.h"
 
 /*  Copyright (C) 2013  Maximilian L. Eul
@@ -19,8 +19,10 @@
     along with hi.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+
 void explicitLines  (const short color, const Range* ranges, uint rcnt);
 void scanLines      (const short color, const Word* keywords, const uint cnt_words, const short mode);
 void scanParagraphs (const short color, const Word* keywords, const uint cnt_words);
 
-#endif /* __SCAN_H */
+
+#endif  // _SCAN_H

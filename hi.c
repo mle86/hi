@@ -1,6 +1,6 @@
 #include "hi.h"
 
-/*  Copyright (C) 2013  Maximilian L. Eul
+/*  Copyright (C) 2019  Maximilian L. Eul
     This file is part of hi.
 
     hi is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@ int main (int argc, char** argv) {
 	uint rcnt = 0;
 
 	register signed char c;
-	while( (c = getopt(argc, argv, "wplL:c:hV")) != -1 )
+	while ((c = getopt(argc, argv, "wplL:c:hV")) != -1)
 	switch(c) {
 		case 'w': mode = MODE_WORD; break;
 		case 'p': mode = MODE_PARA; break;
@@ -57,7 +57,7 @@ int main (int argc, char** argv) {
 	uint cnt_words = 0;
 	Word keywords [MAXKEYWORDS];
 
-	while( optind < argc )
+	while (optind < argc)
 		if (addWord(argv[optind], keywords, &cnt_words))
 			optind++;
 		else break;
@@ -87,11 +87,11 @@ bool addWord (char* new, Word* words, uint *count) {
 
 	register char* t;
 	uint len = 0;
-	for( t=new; *t; t++,len++ )
+	for (t=new; *t; t++,len++)
 		*t = tolower(*t);
 
 	register uint w;
-	for( w=0; w<*count; w++ )
+	for (w=0; w<*count; w++)
 		if (words[w].length == len && strequal(words[w].str, new))
 			// duplicate
 			return true;
@@ -108,7 +108,7 @@ void addRange (const Range* _n, Range *r, uint *cnt) {
 	uint rest;
 
 	#define delR() do{ r->start=0; (*cnt)--; }while(0)
-	for( rest=*cnt; rest>0; r++ ) {
+	for (rest=*cnt; rest>0; r++) {
 		if (! r->start) {
 			// found an empty range struct
 			dest = r;
@@ -126,9 +126,9 @@ void addRange (const Range* _n, Range *r, uint *cnt) {
 			n.start = r->start;
 			delR();
 		} else if (ia && ib)
-			return; // r>n
+			return;  // r>n
 		else if (n.start < r->start && n.stop > r->stop)
-			delR(); // n>r
+			delR();  // n>r
 	}
 	#undef delR
 	
@@ -136,90 +136,4 @@ void addRange (const Range* _n, Range *r, uint *cnt) {
 	dest->stop = n.stop;
 	(*cnt)++;
 }
-
-
-#if 0
-int explicitOnly (char* argv0, char* ExpLines, int color) {
-	uint lstart = 0,
-	     lstop  = 0,
-	     curline = 1;
-	char* p = ExpLines;
-	ssize_t s;
-
-	if (! ExpLines && ! IsDigit(ExpLines[0])) {
-		fprintf(stderr, "%s: no lines given\n", argv0);
-		return RET_NOLINES;
-	}
-
-	while( IsDigit(*p) )  p++;
-	lstart = atoi(ExpLines);
-	lstop = (*(p++)=='-' && IsDigit(*p)) ? atoi(p) : lstart;
-
-	while(( s = read(0, buf, Readlen) ) > 0 ) {
-		register unsigned int i;
-		uint offs = 0; // offset from buf[0] for next line
-		for(i=0; i<=s; i++)
-			if (buf[i]=='\r' && (i+1)<=s && (buf[i+1]=='\n' || buf[i+1]=='\0')) {
-				// Skip \r
-				i++;
-			} else if (buf[i]=='\n' || buf[i]=='\r' || buf[i]=='\0') {
-				// New line
-				char* ptr = &buf[offs];
-				buf[i] = '\0';
-				PrintParagraph(&ptr, 1, (curline >= lstart && curline <= lstop) ? color : 0, true);
-				curline++;
-				offs = i + 1;
-
-				if ((i+1)<=s && buf[i+1]=='\0')
-					break;
-			}
-	}
-
-	switch(s) {
-	  case -1:
-		fprintf(stderr, "%s: read error\n", argv0);
-		return RET_READERROR;
-	  default:
-		return RET_OK;
-	}
-}
-
-
-void PrintParagraph (char** Lines, uint linecnt, short color, bool brk) {
-	register uint i;
-	if (color)
-		printf("[1;%im", color);
-	for(i=0; i<linecnt; i++)
-		printf( brk ? "%s\n" : "%s", Lines[i] );
-	if (color) {
-		printf("[0m");
-		fflush(NULL);
-	}
-}
-
-
-bool ScanLine (char** Words, uint wordcnt, char* rawline, ulint len,  char* *savePos, ulint *saveWlen) {
-	register ulint i;
-	char* line;
-	if (! len)
-		return false;
-	line = strMalloc(len);
-	for(i=0; i<=len; i++)
-		line[i] = lc(rawline[i]);
-	for(i=0; i<wordcnt; i++) {
-		register char* pos;
-		if ((pos = strStr(line, Words[i]))) {
-			if (savePos)  *savePos = rawline + (pos - line);
-			if (saveWlen)  *saveWlen = strLen(Words[i]);
-			free(line);
-			return true;
-		}
-	}
-	free(line);
-	return false;
-}
-#endif
-
-
-
 
