@@ -1,6 +1,7 @@
 #include <string.h>
 #include <strings.h>
 #include <ctype.h>
+#include <err.h>
 #include "keyword.h"
 #include "exit.h"
 #include "limits.h"
@@ -18,7 +19,7 @@ const Keyword* add_keyword (char* word, bool case_sensitive) {
 		return NULL;
 
 	if (nkw >= MAX_KEYWORDS - 1)
-		die(EXIT_TOO_MANY_KEYWORDS, "too many keywords");
+		errx(EXIT_TOO_MANY_KEYWORDS, "too many keywords");
 
 	Keyword* kw = &keywords[nkw++];
 	kw->length         = strlen(word);

@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
+#include <err.h>
 #include "keyword.h"
 #include "limits.h"
 #include "color.h"
@@ -40,7 +41,7 @@ int main (int argc, char** argv) {
 		case 'I':  case_sensitive = true; break;
 		case 'c':
 			if (!identify_color(optarg, &highlight_color)) {
-				die(EXIT_SYNTAX, "unknown color: %s", optarg);
+				errx(EXIT_SYNTAX, "unknown color: %s", optarg);
 			}
 			break;
 		case 'L':
@@ -62,7 +63,7 @@ int main (int argc, char** argv) {
 	// Pre-Take-Off Checks:  ///////////////////////////////////////////////
 
 	if (!n_keywords()) {
-		die(EXIT_NO_KEYWORDS, "no keywords");
+		errx(EXIT_NO_KEYWORDS, "no keywords");
 	}
 
 

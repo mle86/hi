@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <err.h>
 #include "exit.h"
 #include "malloc.h"
 
@@ -8,7 +9,7 @@ void* Malloc (size_t size) {
 		return NULL;
 	void* ptr = malloc(size);
 	if (ptr == NULL && size > 0) {
-		fail("out of memory");
+		errx(EXIT_OUT_OF_MEMORY, "out of memory");
 	}
 	return ptr;
 }
@@ -17,7 +18,7 @@ void* Malloc (size_t size) {
 void* Realloc (void* ptr, size_t newsize) {
 	ptr = realloc(ptr, newsize);
 	if (ptr == NULL && newsize > 0) {
-		fail("out of memory");
+		errx(EXIT_OUT_OF_MEMORY, "out of memory");
 	}
 	return ptr;
 }
