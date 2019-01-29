@@ -1,3 +1,9 @@
+v2.1.0, January 2019:
+	- Support option -i (case-insensitive keyword matching)
+	- Support option -I (case-sensitive keyword matching)
+	- Code rewrite
+	- Semantic versioning
+
 v2.01, June 2013:
 	- Bugfix (signed char)
 
