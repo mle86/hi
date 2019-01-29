@@ -45,14 +45,14 @@ void colorizef (Color color, FILE* output, const char* format, ...) {
 	if (!format || !format[0])
 		return;
 
-	fprintf(output, "%s", color.ansi_code);
+	fputs(color.ansi_code, output);
 
 	va_list va;
 	va_start(va, format);
 	vfprintf(output, format, va);
 	va_end(va);
 
-	fprintf(output, ANSI_SGR0);
+	fputs(color.ansi_code, output);
 }
 
 // Writes a colorized message to the 'output' filehandle.

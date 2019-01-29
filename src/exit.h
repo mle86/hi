@@ -16,7 +16,7 @@
 __attribute__((format(printf, 2, 3)))
 void die (unsigned int status, const char* error_format, ...);
 #define die(status, ...)  do{ \
-		fprintf(stderr, PROGNAME ": "); \
+		fputs(PROGNAME ": ", stderr); \
 		fprintf(stderr, __VA_ARGS__); \
 		exit(status); \
 	}while(0)
@@ -25,7 +25,7 @@ void die (unsigned int status, const char* error_format, ...);
 __attribute__((format(printf, 1, 2)))
 void fail (const char* error_format, ...);
 #define fail(...)  do{ \
-		fprintf(stderr, PROGNAME ": "); \
+		fputs(PROGNAME ": ", stderr); \
 		fprintf(stderr, __VA_ARGS__); \
 		abort(); \
 	}while(0)

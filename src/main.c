@@ -87,7 +87,7 @@ void main_lines (Color highlight_color) {
 		if (find_first_keyword(line)) {
 			colorize(highlight_color, stdout, line);
 		} else {
-			printf("%s", line);
+			fputs(line, stdout);
 		}
 	}
 }
@@ -109,7 +109,7 @@ void main_words (Color highlight_color) {
 		// No more matches in the rest of the line
 		// (or possibly no match in the entire line).
 		// Print the rest:
-		printf("%s", p);
+		fputs(p, stdout);
 	}
 }
 
@@ -126,8 +126,8 @@ void main_paragraphs (Color highlight_color) {
 				colorize(highlight_color, stdout, para->buffer);
 				colorize(highlight_color, stdout, line);
 			} else {
-				printf("%s", para->buffer);
-				printf("%s", line);
+				fputs(para->buffer, stdout);
+				fputs(line, stdout);
 			}
 			matched = false;
 			nstr_truncate(para);
@@ -157,7 +157,7 @@ void main_paragraphs (Color highlight_color) {
 	if (matched) {
 		colorize(highlight_color, stdout, para->buffer);
 	} else {
-		printf("%s", para->buffer);
+		fputs(para->buffer, stdout);
 	}
 }
 
