@@ -4,7 +4,7 @@ BIN=hi
 DEST=/usr/local/bin/hi
 CHOWN=root:root
 
-OBJS =src/main.o src/color.o src/keyword.o src/malloc.o src/nstr.o
+OBJS =src/main.o src/color.o src/keyword.o src/malloc.o src/nstr.o src/range.o
 DEPS =src/*.h
 
 CC=gcc

@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <err.h>
 #include "keyword.h"
+#include "range.h"
 #include "limits.h"
 #include "color.h"
 #include "nstr.h"
@@ -17,6 +18,7 @@ static void Version (void);
 static void main_lines (Color highlight_color);
 static void main_words (Color highlight_color);
 static void main_paragraphs (Color highlight_color);
+static void main_explicit (Color highlight_color);
 static bool is_paragraph_separator (const char* line);
 
 
@@ -46,6 +48,9 @@ int main (int argc, char** argv) {
 			break;
 		case 'L':
 			mode = MODE_EXPLICIT;
+			if (!add_raw_range(optarg)) {
+				errx(EXIT_SYNTAX, "invalid range: %s", optarg);
+			}
 			break;
 		case 'h': Help(); break;
 		case 'V': Version(); break;
@@ -62,7 +67,7 @@ int main (int argc, char** argv) {
 
 	// Pre-Take-Off Checks:  ///////////////////////////////////////////////
 
-	if (!n_keywords()) {
+	if (mode != MODE_EXPLICIT && !n_keywords()) {
 		errx(EXIT_NO_KEYWORDS, "no keywords");
 	}
 
@@ -73,7 +78,7 @@ int main (int argc, char** argv) {
 		case MODE_WORDS: main_words(highlight_color); break;
 		case MODE_LINE: main_lines(highlight_color); break;
 		case MODE_PARAGRAPH: main_paragraphs(highlight_color); break;
-		// TODO
+		case MODE_EXPLICIT: main_explicit(highlight_color); break;
 	}
 
 	return 0;
@@ -159,6 +164,41 @@ void main_paragraphs (Color highlight_color) {
 		colorize(highlight_color, stdout, para->buffer);
 	} else {
 		fputs(para->buffer, stdout);
+	}
+}
+
+void main_explicit (Color highlight_color) {
+	init_ranges();
+
+	char line [MAX_LINELEN];
+	size_t lineno = 1;
+	while (fgets(line, MAX_LINELEN, stdin)) {
+		switch (is_in_range(lineno++)) {
+			case R_MATCH:
+				// Range match!
+				colorize(highlight_color, stdout, line);
+				break;
+			case R_NO_MATCH:
+				// No match, just print the line as-is.
+				// Stay in the while loop, there are remaining ranges.
+				fputs(line, stdout);
+				break;
+			case R_ENDED:
+				// No match and there will be no more matches.
+				fputs(line, stdout);
+				// Leave this while loop for faster as-is printing of the rest:
+				goto rest;
+		}
+	}
+
+  rest:
+	// The rest of the input cannot match any ranges anymore.
+	// Just dump everything as-is:
+	if (feof(stdin))
+		return;
+
+	while (fgets(line, MAX_LINELEN, stdin)) {
+		fputs(line, stdout);
 	}
 }
 

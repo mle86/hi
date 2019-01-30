@@ -6,5 +6,7 @@
 
 #define MAX_LINELEN	8192
 
+#define MAX_RANGES	 256
+
 
 #endif  // _LIMITS_H
