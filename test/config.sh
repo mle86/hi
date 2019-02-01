@@ -48,3 +48,38 @@ assertLineNotHighlighted () {
 	assertRegex "$input" "$re" "$errmsg"
 }
 
+# assertWordHighlighted WORD INPUT [ERRMSG]
+#  Asserts that INPUT contains a word that is specifically highlighted.
+#  WORD is expected to be a non-delimited regex matching the word.
+assertWordHighlighted () {
+	local word="$1"
+	local input="$2"
+	local errmsg="${3:-"Word '$word' was not highlighted!"}"
+	assertContains "$input" "$word" "Word '$word' not contained in input at all (should have been highlighted)!"
+	local re="/${re_highlight}${word}${re_sgr0}/"
+	assertRegex "$input" "$re" "$errmsg"
+}
+
+# assertWordNotHighlighted WORD INPUT [ERRMSG]
+#  Asserts that INPUT contains a word that is NOT specifically highlighted.
+#  WORD is expected to be a non-delimited regex matching the word.
+assertWordNotHighlighted () {
+	local word="$1"
+	local input="$2"
+	local errmsg="${3:-"Word '$word' was highlighted but shouldn't be!"}"
+	assertContains "$input" "$word" "Word '$word' not contained in input at all (should have been contained but not highlighted)!"
+	# is contained but not highlighted == ! ( !contained || contained and highlighted )
+	local re="!/^(?!.*${word})|^.*${re_highlight}${word}${re_sgr0}/s"
+	assertRegex "$input" "$re" "$errmsg"
+}
+
+# not ASSERTION...
+#  Performs an assertion but silences it completely.
+#  Inverts its return status and keeps it from exiting the test script.
+#  If the assertion _fails_, the command returns true;
+#  if the assertion _succeeds_, the command returns false (without any visible message).
+#  Combine this this " || fail ERRMSG" or there won't be any visible error output!
+not () {
+	! ( "$@" ) >/dev/null 2>/dev/null
+}
+
