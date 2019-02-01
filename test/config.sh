@@ -33,6 +33,7 @@ assertLineHighlighted () {
 	local line="$1"
 	local input="$2"
 	local errmsg="${3:-"Line '$line' was not highlighted!"}"
+	assertContains "$input" "$line" "Line '$line' not contained in input at all (should have been highlighted)!"
 	local re="/^(?:${re_sgr0})?${re_highlight}[^\\e]*${line}/m"
 	assertRegex "$input" "$re" "$errmsg"
 }
@@ -44,6 +45,7 @@ assertLineNotHighlighted () {
 	local line="$1"
 	local input="$2"
 	local errmsg="${3:-"Line '$line' was highlighted but shouldn't be!"}"
+	assertContains "$input" "$line" "Line '$line' not contained in input at all (should have been contained but not highlighted)!"
 	local re="/^(?:${re_sgr0})?${line}/m"
 	assertRegex "$input" "$re" "$errmsg"
 }
