@@ -13,7 +13,7 @@ re_sgr0="\\e\\[0m"
 assertHasHighlights () {
 	local input="$1"
 	local errmsg="${2:-"Input did not contain at least one visible highlight!"}"
-	local re="/${re_highlight}[\\s*][^\\s\\e]/"
+	local re="/${re_highlight}\\s*[^\\s\\e]/"
 	assertRegex "$input" "$re" "$errmsg"
 }
 
@@ -33,7 +33,7 @@ assertLineHighlighted () {
 	local line="$1"
 	local input="$2"
 	local errmsg="${3:-"Line '$line' was not highlighted!"}"
-	local re="/^${re_highlight}[^\\e]*${line}/m"
+	local re="/^(?:${re_sgr0})?${re_highlight}[^\\e]*${line}/m"
 	assertRegex "$input" "$re" "$errmsg"
 }
 
@@ -44,7 +44,7 @@ assertLineNotHighlighted () {
 	local line="$1"
 	local input="$2"
 	local errmsg="${3:-"Line '$line' was highlighted but shouldn't be!"}"
-	local re="/(?:^${re_sgr0}|\\A)[^\\e]*${line}/m"
+	local re="/^(?:${re_sgr0})?${line}/m"
 	assertRegex "$input" "$re" "$errmsg"
 }
 
