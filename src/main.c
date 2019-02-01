@@ -222,15 +222,17 @@ void Help (void) {
 	#define M0 COLOR_SGR0
 	#define Mu COLOR_UNDERLINED
 
+	#define KW Mu "KEYWORD" M0
+
 	printf(
 		M1 PROGNAME M0 " reads text from standard input and highlights\n"
 		"those paragraphs/lines containing at least one of the given keywords.\n"
-		"Usage: " M1 PROGNAME M0 " [" M1 "OPTIONS" M0 "] " Mu "KEYWORD" M0 "...\n"
+		"Usage: " M1 PROGNAME M0 " [" M1 "OPTIONS" M0 "] " KW "...\n"
 		"Options:\n"
-		"  " M1 "-p" M0 "        Highlight paragraphs containing at least one of the "Mu "KEYWORD"M0"s.\n"
-		"  " M1 "-l" M0 "        Highlight lines containing at least one of the "Mu "KEYWORD"M0"s.\n"
-		"  " M1 "-w" M0 "        Highlight only KEYWORD"M0"s\n"
-		"  " M1 "-L" M0 " " Mu "nn" M0"     Highlight only the given line(s), no "Mu "KEYWORD"M0"s needed.\n"
+		"  " M1 "-p" M0 "        Highlight paragraphs containing at least one of the " KW "s.\n"
+		"  " M1 "-l" M0 "        Highlight lines containing at least one of the " KW "s.\n"
+		"  " M1 "-w" M0 "        Highlight only " KW "s.\n"
+		"  " M1 "-L" M0 " " Mu "nn" M0"     Highlight only the given line(s), no " KW "s needed.\n"
 		"            " Mu "nn" M0 ": either a single line number "
 		                             "(e.g. "Mu "71"M0") "
 		                             "or a range (e.g. " Mu "1-9" M0 ").\n"
