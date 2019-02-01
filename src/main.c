@@ -34,7 +34,7 @@ int main (int argc, char** argv) {
 	// Options:  ///////////////////////////////////////////////////////////
 
 	signed char c;
-	while ((c = getopt(argc, argv, "wplL:c:hV")) != -1)
+	while ((c = getopt(argc, argv, "wplL:c:iIhV")) != -1)
 	switch (c) {
 		case 'w':  mode = MODE_WORDS; break;
 		case 'l':  mode = MODE_LINE; break;
@@ -237,6 +237,8 @@ void Help (void) {
 		"  " M1 "-c" M0 " " Mu "COLOR" M0 "  Select highlighting color, choose from\n"
 		"            " Mu "white" M0 ", " Mu "red" M0 ", " Mu "green" M0 ", "
 		               Mu "blue" M0 ", " Mu "yellow" M0 ", " Mu "cyan" M0 ".\n"
+		"  " M1 "-i" M0 "        Case-insensitive matching (default).\n"
+		"  " M1 "-I" M0 "        Case-sensitive matching.\n"
 		"  " M1 "-h" M0 "        This help.\n"
 		"  " M1 "-V" M0 "        Program version information.\n"
 		"Options "M1"-plwL"M0" are mutually exclusive.\n"
