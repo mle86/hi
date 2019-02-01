@@ -52,7 +52,7 @@ void colorizef (Color color, FILE* output, const char* format, ...) {
 	vfprintf(output, format, va);
 	va_end(va);
 
-	fputs(color.ansi_code, output);
+	fputs(ANSI_SGR0, output);
 }
 
 // Writes a colorized message to the 'output' filehandle.
