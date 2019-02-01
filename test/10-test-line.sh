@@ -1,6 +1,8 @@
 #!/bin/sh
 . $(dirname "$0")/init.sh
 
+# Tests mode -l.
+
 
 assertCmd "$HI -l NX9991 wxq NX9992 gld NX9993 < '$HERE/samples/default.txt'"
 wxq_gld="$ASSERTCMDOUTPUT"
