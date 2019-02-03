@@ -1,0 +1,108 @@
+.TH HI "1" "February 2019" "hi 2.1.0" ""
+.SH NAME
+hi \- highlights lines containing keywords
+.SH SYNOPSIS
+\fBhi\fR
+[\fB-l\fR|\fB-w\fR|\fB-p\fR]
+[\fIOPTIONS\fR]
+[\fB\-\-\fR]
+\fIKEYWORD\fR...
+.br
+\fBhi\fR
+\fB-L\fR
+[\fIOPTIONS\fR]
+[\fB\-\-\fR]
+\fIRANGE\fR...
+.SH DESCRIPTION
+\fBhi\fR reads text from the standard input
+and prints its input on the standard input.
+Lines containing at least one of the given keywords
+will be colorized
+with ANSI escape codes.
+.SH MODES
+The program operates in one of several
+.B output modes.
+.br
+The default output mode is \fB\-l\fR.
+.TP
+.B \-l
+Highlight lines:
+All lines containing at least one of the \fIKEYWORD\fRs
+will be highlighted in the output.
+.TP
+.B \-p
+Highlight paragraphs:
+All paragraphs containing at least one of the \fIKEYWORD\fRs
+will be highlighted in the output.
+.TP
+.B \-w
+Highlight words:
+Only the \fIKEYWORD\fRs themselves
+will be colorized in the output.
+.TP
+.B \-L
+Explicit mode:
+In this mode, there are no \fIKEYWORD\fRs.
+Instead,
+the program takes one or more line number \fIRANGE\fRs
+which will be colorized.
+For example, the invocation
+\(lq\fBhi -L 3 8-10 5\fR\(rq
+will highlight lines 3, 5, 8, 9, and 10
+but nothing else.
+Line numbers start at 1.
+.SH OPTIONS
+.TP
+\fB-i\fR
+Enable case-insensitive matching.
+This is the default.
+Note that the program is unaware of locales
+and can only compare plain ASCII letters (\fBA\fR..\fBZ\fR)
+case-insensitivly; all other characters will be compared byte-for-byte.
+.TP
+\fB-I\fR
+Enable case-sensitive matching.
+The opposite of \fB-i\fR.
+.TP
+\fB-c\fR \fICOLOR\fR
+Select the output highlighting color.
+Recognized colors are:
+.PD 0
+.RS
+.IP - 2
+.BR yellow / ye / yw
+(default),
+.IP - 2
+.BR red / re / rd ,
+.IP - 2
+.BR blue / bl ,
+.IP - 2
+.BR green / gr / gn ,
+.IP - 2
+.BR cyan / cy / cn ,
+.IP - 2
+.BR white / wh .
+.PD
+.RE
+.TP
+\fB-h\fR
+Show program help.
+.TP
+\fB-V\fR
+Show program version information.
+.SH LICENSE
+.ad l
+This program is released under the
+GPLv3\~license
+(https://www.gnu.org/licenses/gpl.html).
+.P
+It includes the "nstr" module
+from the
+csv-parser project
+(https://github.com/mle86/csv-parser)
+which is released under the
+MIT\~license
+(https://opensource.org/licenses/MIT).
+.SH AUTHOR
+Maximilian Eul <maximilian@eul.cc>
+(https://github.com/mle86)

@@ -24,10 +24,15 @@ $(BIN): $(OBJS)
 %.o: %.c $(DEPS)
 	$(CC) -c -o ${*}.o $(CFLAGS) $<
 
-install:
+install: $(BIN)
 	strip $(BIN)
 	cp $(BIN) $(DEST)
 	chown $(CHOWN) $(DEST)
+	
+	mkdir -p /usr/local/share/man/man1/
+	cp man/hi.1 /usr/local/share/man/man1/
+	chmod 0644 /usr/local/share/man/man1/hi.1
+	gzip -f /usr/local/share/man/man1/hi.1
 
 clean:
 	rm -f $(BIN) *.o a.out *~ src/*.o src/a.out src/*~
