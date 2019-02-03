@@ -24,6 +24,10 @@ $(BIN): $(OBJS)
 %.o: %.c $(DEPS)
 	$(CC) -c -o ${*}.o $(CFLAGS) $<
 
+README.md: man/hi.1 man/*.md
+	git submodule update --init man/man-to-md/
+	perl man/man-to-md.pl --word hi --formatted-code --comment --paste-after HEADLINE:'Badges.md' <$< >$@
+
 install: $(BIN)
 	strip $(BIN)
 	cp $(BIN) $(DEST)
