@@ -26,7 +26,7 @@ $(BIN): $(OBJS)
 
 README.md: man/hi.1 man/*.md
 	git submodule update --init man/man-to-md/
-	perl man/man-to-md.pl --word hi --formatted-code --comment --paste-after HEADLINE:'Badges.md' <$< >$@
+	perl man/man-to-md.pl --word hi --formatted-code --comment --paste-after HEADLINE:'Badges.md' --paste-section-after DESCRIPTION:'Installation.md' <$< >$@
 
 install: $(BIN)
 	strip $(BIN)
