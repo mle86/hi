@@ -13,7 +13,7 @@ CFLAGS =-O3 -std=c99 -Wall -Wextra -pedantic
 CFLAGS+=-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -fPIE
 CFLAGS+=-DPROGNAME="\"$(BIN)\"" -D_POSIX_C_SOURCE=200809L
 
-.PHONY : all install clean
+.PHONY : all install clean test
 
 
 all: $(BIN)
@@ -33,6 +33,10 @@ install: $(BIN)
 	cp man/hi.1 /usr/local/share/man/man1/
 	chmod 0644 /usr/local/share/man/man1/hi.1
 	gzip -f /usr/local/share/man/man1/hi.1
+
+test:
+	git submodule update --init test/framework/
+	test/run-all-tests.sh
 
 clean:
 	rm -f $(BIN) *.o a.out *~ src/*.o src/a.out src/*~
