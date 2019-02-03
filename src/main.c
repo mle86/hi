@@ -13,6 +13,8 @@
 
 #define VERSION "2.1.0"
 
+#define streq(a, conststr) (0 == strncmp((a), conststr, sizeof(conststr)))
+
 static void Help (void);
 static void Version (void);
 static void main_lines (Color highlight_color);
@@ -48,7 +50,10 @@ int main (int argc, char** argv) {
 			break;
 		case 'L':
 			mode = MODE_EXPLICIT;
-			if (!add_raw_range(optarg)) {
+			if (optarg[0] == '-') {
+				// Doesn't look like a range. Retry as option.
+				optind--;
+			} else if (!add_raw_range(optarg)) {
 				errx(EXIT_SYNTAX, "invalid range: %s", optarg);
 			}
 			break;
@@ -60,8 +65,17 @@ int main (int argc, char** argv) {
 	// Arguments:  /////////////////////////////////////////////////////////
 
 	while (optind < argc) {
-		add_keyword(strdup(argv[optind]), case_sensitive);
-		optind++;
+		const char* arg = argv[optind++];
+
+		if (mode == MODE_EXPLICIT) {
+			// In explicit mode (-L), all non-option arguments are line ranges:
+			if (!add_raw_range(arg)) {
+				errx(EXIT_SYNTAX, "invalid range: %s", arg);
+			}
+		} else {
+			// In all other modes (-wpl), all non-option arguments are KEYWORDs:
+			add_keyword(strdup(arg), case_sensitive);
+		}
 	}
 
 
@@ -69,6 +83,9 @@ int main (int argc, char** argv) {
 
 	if (mode != MODE_EXPLICIT && !n_keywords()) {
 		errx(EXIT_NO_KEYWORDS, "no keywords");
+	}
+	if (mode == MODE_EXPLICIT && !n_ranges()) {
+		errx(EXIT_NO_RANGES, "no ranges");
 	}
 
 
@@ -223,26 +240,28 @@ void Help (void) {
 	#define Mu COLOR_UNDERLINED
 
 	#define KW Mu "KEYWORD" M0
+	#define RG Mu "RANGE" M0
 
 	printf(
 		M1 PROGNAME M0 " reads text from standard input and highlights\n"
 		"those paragraphs/lines containing at least one of the given keywords.\n"
-		"Usage: " M1 PROGNAME M0 " [" M1 "OPTIONS" M0 "] " KW "...\n"
+		"Usage: " M1 PROGNAME M0 " [" M1 "-w" M0 "|" M1 "-p" M0 "|" M1 "-l" M0 "] [" M1 "OPTIONS" M0 "] " KW "...\n"
+		"Usage: " M1 PROGNAME M0 "  " M1 "-L" M0 "       "                      " [" M1 "OPTIONS" M0 "] " RG "...\n"
 		"Options:\n"
-		"  " M1 "-p" M0 "        Highlight paragraphs containing at least one of the " KW "s.\n"
-		"  " M1 "-l" M0 "        Highlight lines containing at least one of the " KW "s.\n"
-		"  " M1 "-w" M0 "        Highlight only " KW "s.\n"
-		"  " M1 "-L" M0 " " Mu "nn" M0"     Highlight only the given line(s), no " KW "s needed.\n"
-		"            " Mu "nn" M0 ": either a single line number "
+		"  " M1 "-p" M0 "         Highlight paragraphs containing at least one of the " KW "s.\n"
+		"  " M1 "-l" M0 "         Highlight lines containing at least one of the " KW "s.\n"
+		"  " M1 "-w" M0 "         Highlight only " KW "s.\n"
+		"  " M1 "-L" M0 " [" RG "] Highlight only the given line(s).\n"
+		"             RANGE: either a single line number "
 		                             "(e.g. "Mu "71"M0") "
 		                             "or a range (e.g. " Mu "1-9" M0 ").\n"
-		"  " M1 "-c" M0 " " Mu "COLOR" M0 "  Select highlighting color, choose from\n"
-		"            " Mu "white" M0 ", " Mu "red" M0 ", " Mu "green" M0 ", "
+		"  " M1 "-c" M0 " " Mu "COLOR" M0 "   Select highlighting color, choose from\n"
+		"             " Mu "white" M0 ", " Mu "red" M0 ", " Mu "green" M0 ", "
 		               Mu "blue" M0 ", " Mu "yellow" M0 ", " Mu "cyan" M0 ".\n"
-		"  " M1 "-i" M0 "        Case-insensitive matching (default).\n"
-		"  " M1 "-I" M0 "        Case-sensitive matching.\n"
-		"  " M1 "-h" M0 "        This help.\n"
-		"  " M1 "-V" M0 "        Program version information.\n"
+		"  " M1 "-i" M0 "         Case-insensitive matching (default).\n"
+		"  " M1 "-I" M0 "         Case-sensitive matching.\n"
+		"  " M1 "-h" M0 "         This help.\n"
+		"  " M1 "-V" M0 "         Program version information.\n"
 		"Options "M1"-plwL"M0" are mutually exclusive.\n"
 		"Defaults are "M1"-l -c yellow"M0".\n"
 		"\n"
