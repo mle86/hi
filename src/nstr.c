@@ -1,3 +1,15 @@
+/*
+ * This module is based on "nstr" from the "csv-parser" project
+ * (https://github.com/mle86/csv-parser/blob/v2.5.2/nstr.c)
+ * which is licensed under the MIT license (see LICENSE.nstr.mit).
+ *
+ * SPDX-License-Identifier: MIT
+ * Copyright © 2017-2019 Maximilian Eul
+ *
+ * This file is part of the 'hi' project
+ * (see https://github.com/mle86/hi).
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

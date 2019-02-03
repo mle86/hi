@@ -1,8 +1,5 @@
 #ifndef NSTR_H
 #define NSTR_H
-#include <stdbool.h>
-#include <stdlib.h>
-
 
 /**
  * nstr are a NUL-safe string structure.
@@ -34,7 +31,22 @@
  * nstr structures are created using plain malloc(3)/realloc(3)
  * and can therefore be destroyed with free(3).
  * Alternatively, nstr_destroy() does the same.
+ *
+ * This module is based on "nstr" from the "csv-parser" project
+ * (https://github.com/mle86/csv-parser/blob/v2.5.2/nstr.c)
+ * which is licensed under the MIT license (see LICENSE.nstr.mit).
+ *
+ * SPDX-License-Identifier: MIT
+ * Copyright © 2017-2019 Maximilian Eul
+ *
+ * This file is part of the 'hi' project
+ * (see https://github.com/mle86/csv-parser).
  */
+
+#include <stdbool.h>
+#include <stdlib.h>
+
+
 typedef struct nstr {
 	size_t length;
 	char   buffer [1];
