@@ -14,7 +14,7 @@ Version 2.1.0, February 2019
 # Description
 
 **hi** reads text from the standard input
-and prints its input on the standard input.
+and prints its input on the standard output.
 Lines containing at least one of the given keywords
 will be colorized
 with ANSI escape codes.
@@ -69,7 +69,7 @@ The default output mode is **-l**.
   This is the default.
   Note that the program is unaware of locales
   and can only compare plain ASCII letters (**A**..**Z**)
-  case-insensitivly; all other characters will be compared byte-for-byte.
+  case-insensitively; all other characters will be compared byte-for-byte.
 * **-I**, **--case-sensitive**  
   Enable case-sensitive matching.
   The opposite of **-i**.

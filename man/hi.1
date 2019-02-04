@@ -15,7 +15,7 @@ hi \- highlights lines containing keywords
 \fIRANGE\fR...
 .SH DESCRIPTION
 \fBhi\fR reads text from the standard input
-and prints its input on the standard input.
+and prints its input on the standard output.
 Lines containing at least one of the given keywords
 will be colorized
 with ANSI escape codes.
@@ -58,7 +58,7 @@ Enable case-insensitive matching.
 This is the default.
 Note that the program is unaware of locales
 and can only compare plain ASCII letters (\fBA\fR..\fBZ\fR)
-case-insensitivly; all other characters will be compared byte-for-byte.
+case-insensitively; all other characters will be compared byte-for-byte.
 .TP
 \fB\-I\fR, \fB\-\-case-sensitive\fR
 Enable case-sensitive matching.
