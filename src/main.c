@@ -301,7 +301,7 @@ void Help (void) {
 void Version (void) {
 	printf(
 		"%s v%s\n"
-		"Written by Maximilian Eul <maximilian@eul.cc>, January 2019.\n"
+		"Written by Maximilian Eul <maximilian@eul.cc>, February 2019.\n"
 		"\n"
 		, PROGNAME, VERSION
 	);
