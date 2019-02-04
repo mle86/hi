@@ -37,19 +37,19 @@ The program operates in one of several
 **output modes.**  
 The default output mode is **-l**.
 
-* **-l**  
+* **-l, --lines**  
   Highlight lines:
   All lines containing at least one of the *KEYWORD*s
   will be highlighted in the output.
-* **-p**  
+* **-p, --paragraphs**  
   Highlight paragraphs:
   All paragraphs containing at least one of the *KEYWORD*s
   will be highlighted in the output.
-* **-w**  
+* **-w, --words**  
   Highlight words:
   Only the *KEYWORD*s themselves
   will be colorized in the output.
-* **-L**  
+* **-L, --explicit, --ranges**  
   Explicit mode:
   In this mode, there are no *KEYWORD*s.
   Instead,
@@ -64,16 +64,16 @@ The default output mode is **-l**.
 # Options
 
 
-* **-i**  
+* **-i**, **--ignore-case**  
   Enable case-insensitive matching.
   This is the default.
   Note that the program is unaware of locales
   and can only compare plain ASCII letters (**A**..**Z**)
   case-insensitivly; all other characters will be compared byte-for-byte.
-* **-I**  
+* **-I**, **--case-sensitive**  
   Enable case-sensitive matching.
   The opposite of **-i**.
-* **-c** *COLOR*  
+* **-c**, **--color** *COLOR*  
   Select the output highlighting color.
   Recognized colors are:
     * **yellow**/**ye**/**yw**
@@ -83,9 +83,9 @@ The default output mode is **-l**.
     * **green**/**gr**/**gn**,
     * **cyan**/**cy**/**cn**,
     * **white**/**wh**.
-* **-h**  
+* **-h**, **--help**  
   Show program help.
-* **-V**  
+* **-V**, **--version**  
   Show program version information.
 
 # License

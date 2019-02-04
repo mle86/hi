@@ -7,6 +7,7 @@
  */
 
 #include <unistd.h>
+#include <getopt.h>
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
@@ -43,8 +44,27 @@ int main (int argc, char** argv) {
 
 	// Options:  ///////////////////////////////////////////////////////////
 
+
+	const char* options = "wplL:c:iIhV";
+	const struct option long_options [] = {
+		{ "words",          no_argument,       NULL, 'w' },
+		{ "lines",          no_argument,       NULL, 'l' },
+		{ "paragraphs",     no_argument,       NULL, 'p' },
+		{ "explicit",       required_argument, NULL, 'L' },
+		{ "ranges",         required_argument, NULL, 'L' },
+
+		{ "help",           no_argument,       NULL, 'h' },
+		{ "version",        no_argument,       NULL, 'V' },
+
+		{ "ignore-case",    no_argument,       NULL, 'i' },
+		{ "case-sensitive", no_argument,       NULL, 'I' },
+		{ "color",          required_argument, NULL, 'c' },
+		{ "colour",         required_argument, NULL, 'c' },
+
+		{ 0, 0, 0, 0 }};
+
 	int c;
-	while ((c = getopt(argc, argv, "wplL:c:iIhV")) != -1)
+	while ((c = getopt_long(argc, argv, options, long_options, NULL)) != -1)
 	switch (c) {
 		case 'w':  mode = MODE_WORDS; break;
 		case 'l':  mode = MODE_LINE; break;

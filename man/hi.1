@@ -25,22 +25,22 @@ The program operates in one of several
 .br
 The default output mode is \fB\-l\fR.
 .TP
-.B \-l
+.B \-l, \-\-lines
 Highlight lines:
 All lines containing at least one of the \fIKEYWORD\fRs
 will be highlighted in the output.
 .TP
-.B \-p
+.B \-p, \-\-paragraphs
 Highlight paragraphs:
 All paragraphs containing at least one of the \fIKEYWORD\fRs
 will be highlighted in the output.
 .TP
-.B \-w
+.B \-w, \-\-words
 Highlight words:
 Only the \fIKEYWORD\fRs themselves
 will be colorized in the output.
 .TP
-.B \-L
+.B \-L, \-\-explicit, \-\-ranges
 Explicit mode:
 In this mode, there are no \fIKEYWORD\fRs.
 Instead,
@@ -53,18 +53,18 @@ but nothing else.
 Line numbers start at 1.
 .SH OPTIONS
 .TP
-\fB-i\fR
+\fB\-i\fR, \fB\-\-ignore-case\fR
 Enable case-insensitive matching.
 This is the default.
 Note that the program is unaware of locales
 and can only compare plain ASCII letters (\fBA\fR..\fBZ\fR)
 case-insensitivly; all other characters will be compared byte-for-byte.
 .TP
-\fB-I\fR
+\fB\-I\fR, \fB\-\-case-sensitive\fR
 Enable case-sensitive matching.
 The opposite of \fB-i\fR.
 .TP
-\fB-c\fR \fICOLOR\fR
+\fB\-c\fR, \fB\-\-color\fR \fICOLOR\fR
 Select the output highlighting color.
 Recognized colors are:
 .PD 0
@@ -85,10 +85,10 @@ Recognized colors are:
 .PD
 .RE
 .TP
-\fB-h\fR
+\fB\-h\fR, \fB\-\-help\fR
 Show program help.
 .TP
-\fB-V\fR
+\fB\-V\fR, \fB\-\-version\fR
 Show program version information.
 .SH LICENSE
 .ad l

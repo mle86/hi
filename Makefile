@@ -11,7 +11,7 @@ CC=gcc
 LD=gcc
 CFLAGS =-O3 -std=c99 -Wall -Wextra -pedantic -Wconversion -Wsign-conversion -Wformat-security
 CFLAGS+=-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -fPIE -pie
-CFLAGS+=-DPROGNAME="\"$(BIN)\"" -D_POSIX_C_SOURCE=200809L
+CFLAGS+=-DPROGNAME="\"$(BIN)\"" -D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE
 
 .PHONY : all install clean test
 
