@@ -3,13 +3,13 @@
 hi \- highlights lines containing keywords
 .SH SYNOPSIS
 \fBhi\fR
-[\fB-l\fR|\fB-w\fR|\fB-p\fR]
+[\fB\-l\fR|\fB\-w\fR|\fB\-p\fR]
 [\fIOPTIONS\fR]
 [\fB\-\-\fR]
 \fIKEYWORD\fR...
 .br
 \fBhi\fR
-\fB-L\fR
+\fB\-L\fR
 [\fIOPTIONS\fR]
 [\fB\-\-\fR]
 \fIRANGE\fR...
@@ -47,7 +47,7 @@ Instead,
 the program takes one or more line number \fIRANGE\fRs
 which will be colorized.
 For example, the invocation
-\(lq\fBhi -L 3 8-10 5\fR\(rq
+\(lq\fBhi \-L 3 8-10 5\fR\(rq
 will highlight lines 3, 5, 8, 9, and 10
 but nothing else.
 Line numbers start at 1.
@@ -62,7 +62,7 @@ case-insensitivly; all other characters will be compared byte-for-byte.
 .TP
 \fB\-I\fR, \fB\-\-case-sensitive\fR
 Enable case-sensitive matching.
-The opposite of \fB-i\fR.
+The opposite of \fB\-i\fR.
 .TP
 \fB\-c\fR, \fB\-\-color\fR \fICOLOR\fR
 Select the output highlighting color.
