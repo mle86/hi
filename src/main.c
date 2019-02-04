@@ -43,7 +43,7 @@ int main (int argc, char** argv) {
 
 	// Options:  ///////////////////////////////////////////////////////////
 
-	signed char c;
+	int c;
 	while ((c = getopt(argc, argv, "wplL:c:iIhV")) != -1)
 	switch (c) {
 		case 'w':  mode = MODE_WORDS; break;
