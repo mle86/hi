@@ -18,7 +18,7 @@ assertHasHighlights () {
 }
 
 # assertHasNoHighlights INPUT [ERRMSG]
-#  Asserts that the INPUT string contains zero visible highlight.
+#  Asserts that the INPUT string contains zero visible highlights.
 assertHasNoHighlights () {
 	local input="$1"
 	local errmsg="${2:-"Input did contain highlights but shouldn't have!"}"
@@ -80,7 +80,7 @@ assertWordNotHighlighted () {
 #  Inverts its return status and keeps it from exiting the test script.
 #  If the assertion _fails_, the command returns true;
 #  if the assertion _succeeds_, the command returns false (without any visible message).
-#  Combine this this " || fail ERRMSG" or there won't be any visible error output!
+#  Combine this with " || fail ERRMSG" or there won't be any visible error output!
 not () {
 	! ( "$@" ) >/dev/null 2>/dev/null
 }
